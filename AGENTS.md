@@ -31,3 +31,5 @@ Recent history uses short Conventional Commit style prefixes such as `chore:` an
 ## Configuration Tips
 
 Before shipping, replace the `appid` in `src/manifest.json` with your own. Keep generated output under `dist/` out of source edits, and prefer updating source files rather than editing built artifacts.
+
+Project-level agent skills should stay minimal in this repository. Keep installed skills under `.agents/skills/` and commit `skills-lock.json` for reproducibility. Do not commit compatibility symlink directories such as `.claude/`, `.continue/`, or `skills/` unless this repository explicitly needs those tools.
