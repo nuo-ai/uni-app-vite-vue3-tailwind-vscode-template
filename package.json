@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "uni -p mp-weixin",
     "build": "pnpm build:mp-weixin",
-    "postinstall": "weapp-tw patch",
     "dev:app": "uni -p app",
     "launch:app:android": "uni-launch app-android",
     "launch:app:ios": "uni-launch app-ios --iosTarget simulator",

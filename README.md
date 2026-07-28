@@ -48,11 +48,7 @@ pnpm install
 pnpm dev:mp-weixin
 ```
 
-安装依赖时会自动执行 `weapp-tw patch`。仓库禁用了 `@dcloudio/hbuilderx-cli` 会改写宿主脚本的安装钩子，CLI 二进制和显式声明的 App 启动命令不受影响。如果 pnpm 提示 `weapp-tailwindcss` 构建脚本未获批准，请运行：
-
-```bash
-pnpm approve-builds
-```
+`weapp-tailwindcss@5` 会在构建运行时完成 Tailwind CSS 生成和类名收集，安装依赖时无需额外的 Tailwind 补丁或构建脚本授权。
 
 如果需要直接打开微信开发者工具：
 
@@ -117,7 +113,7 @@ pnpm lint
 
 ## 模板说明
 
-- 安装依赖后会自动执行 `weapp-tw patch`
+- Tailwind CSS 由 `weapp-tailwindcss@5` 在构建运行时生成，无需安装后补丁
 - 样式条件编译示例使用 `@custom-variant wx` / `@custom-variant not-wx`
 - 请先把 `src/manifest.json` 中的 AppID 替换成自己的配置
 - 模板内保留了 `up:pkg` 和 `up:uniapp`，用于分别升级通用依赖和 `uni-app` 依赖
