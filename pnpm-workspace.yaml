@@ -1,4 +1,5 @@
 allowBuilds:
+  '@dcloudio/hbuilderx-cli': false
   '@parcel/watcher': true
   core-js: true
   core-js-pure: true

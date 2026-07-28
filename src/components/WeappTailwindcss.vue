@@ -14,12 +14,10 @@ function copy(data) {
     "
   >
     <view class="px-[48px]">
-      <view
-        class="
-          aspect-[100/16.1]
-          bg-[url(https://pic4.zhimg.com/80/v2-63755eaa318858e33445862d72581207.png)]
-          bg-[length:100%_100%] bg-no-repeat
-        "
+      <image
+        class="aspect-[1329/214] h-auto w-full"
+        src="/static/images/weapp-tailwindcss.png"
+        mode="aspectFit"
       />
     </view>
     <view

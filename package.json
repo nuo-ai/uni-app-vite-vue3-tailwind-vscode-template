@@ -8,7 +8,10 @@
   "scripts": {
     "dev": "uni -p mp-weixin",
     "build": "pnpm build:mp-weixin",
+    "postinstall": "weapp-tw patch",
     "dev:app": "uni -p app",
+    "launch:app:android": "uni-launch app-android",
+    "launch:app:ios": "uni-launch app-ios --iosTarget simulator",
     "dev:custom": "uni -p",
     "dev:h5": "uni --host",
     "dev:h5:ssr": "uni --ssr",
@@ -72,6 +75,7 @@
     "vue-i18n": "^9.1.9"
   },
   "devDependencies": {
+    "@dcloudio/hbuilderx-cli": "^1.2.0",
     "@dcloudio/types": "^3.4.8",
     "@dcloudio/uni-automator": "3.0.0-5010520260709002",
     "@dcloudio/uni-cli-shared": "3.0.0-5010520260709002",
@@ -84,6 +88,7 @@
     "@iconify/tailwind4": "^1.2.3",
     "@types/node": "^26.1.2",
     "@vue/runtime-core": "^3.4.21",
+    "@weapp-tailwindcss/postcss-calc": "^1.0.3",
     "autoprefixer": "^10.5.4",
     "eslint": "^10.8.0",
     "postcss": "^8.5.23",

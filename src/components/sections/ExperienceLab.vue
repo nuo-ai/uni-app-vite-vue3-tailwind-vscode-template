@@ -122,8 +122,8 @@ function copy(data: string) {
         </view>
         <button
           class="
-            w-full rounded-2xl py-2 text-base font-semibold shadow-lg transition
-            hover:scale-[1.01]
+            raw-btn w-full rounded-2xl py-2 text-base font-semibold shadow-lg
+            transition hover:scale-[1.01]
           "
           :class="buttonClass"
           @click="increment"
@@ -310,7 +310,9 @@ function copy(data: string) {
   align-items: center;
   justify-content: center;
   width: 222.222px;
+  max-width: 100%;
   height: 100px;
+  box-sizing: border-box;
   border-radius: 40px;
   background-color: rgb(18 52 86 / 0.54);
   color: #ffffff;

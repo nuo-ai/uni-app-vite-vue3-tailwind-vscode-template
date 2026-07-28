@@ -15,8 +15,8 @@ onLoad(() => {
   <view
     class="
       flex min-h-screen w-full justify-center
-      bg-[radial-gradient(circle_at_18%_20%,#e0f2fe,#fdf4ff_70%)] px-0 py-6
-      text-slate-800
+      safe-area-bottom bg-[radial-gradient(circle_at_18%_20%,#e0f2fe,#fdf4ff_70%)]
+      px-0 pt-6 text-slate-800
     "
   >
     <view
