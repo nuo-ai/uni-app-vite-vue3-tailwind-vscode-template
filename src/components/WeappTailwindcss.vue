@@ -7,12 +7,7 @@ function copy(data) {
 </script>
 
 <template>
-  <view
-    class="
-      space-y-1.5 px-4
-      [&>view]:text-center
-    "
-  >
+  <view class="space-y-1.5 px-4 text-center">
     <view class="px-[48px]">
       <image
         class="aspect-[1329/214] h-auto w-full"
