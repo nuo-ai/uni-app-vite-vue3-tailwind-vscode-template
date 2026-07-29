@@ -68,8 +68,8 @@ pnpm launch:app:ios
 指定设备时，把 HBuilderX 设备列表中的 ID 透传给命令：
 
 ```bash
-pnpm launch:app:android -- --deviceId <android-device-id>
-pnpm launch:app:ios -- --deviceId <ios-simulator-uuid>
+pnpm launch:app:android --deviceId <android-device-id>
+pnpm launch:app:ios --deviceId <ios-simulator-uuid>
 ```
 
 `launch:app:ios` 默认运行到 iOS 模拟器。真机运行需要在 HBuilderX 中配置 Apple 开发证书与描述文件。
@@ -97,6 +97,7 @@ pnpm dev:app
 pnpm build:app
 pnpm launch:app:android
 pnpm launch:app:ios
+pnpm test:app-css
 pnpm open:dev
 pnpm open:build
 pnpm lint
@@ -114,6 +115,8 @@ pnpm lint
 ## 模板说明
 
 - Tailwind CSS 由 `weapp-tailwindcss@5` 在构建运行时生成，无需安装后补丁
+- App WebView 兼容由 `weapp-tailwindcss` 内置的 `legacy-web` 处理链提供；模板不再维护额外的 PostCSS 兼容插件，并保留 Tailwind CSS v4 的运行时 `--spacing` 语义
+- `pnpm test:app-css` 会构建 App 资源，并回归检查间距变量、`space-y` 反转公式、渐变文字 WebKit 前缀和 Android/iOS 平台声明
 - 样式条件编译示例使用 `@custom-variant wx` / `@custom-variant not-wx`
 - 请先把 `src/manifest.json` 中的 AppID 替换成自己的配置
 - 模板内保留了 `up:pkg` 和 `up:uniapp`，用于分别升级通用依赖和 `uni-app` 依赖

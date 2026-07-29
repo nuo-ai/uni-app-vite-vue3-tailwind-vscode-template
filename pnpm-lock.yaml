@@ -111,9 +111,6 @@ importers:
       '@vue/runtime-core':
         specifier: ^3.4.21
         version: 3.5.40
-      '@weapp-tailwindcss/postcss-calc':
-        specifier: ^1.0.3
-        version: 1.0.3(postcss@8.5.23)
       autoprefixer:
         specifier: ^10.5.4
         version: 10.5.4(postcss@8.5.23)
@@ -11730,7 +11727,7 @@ snapshots:
       '@vue/shared': 3.5.39
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.23
+      postcss: 8.5.24
       source-map-js: 1.2.1
 
   '@vue/compiler-sfc@3.5.40':
@@ -11819,12 +11816,6 @@ snapshots:
       '@weapp-core/escape': 8.0.0
       '@weapp-tailwindcss/runtime': 0.1.6
       tailwind-merge: 3.6.0
-
-  '@weapp-tailwindcss/postcss-calc@1.0.3(postcss@8.5.23)':
-    dependencies:
-      postcss: 8.5.23
-      postcss-selector-parser: 7.1.4
-      postcss-value-parser: 4.2.0
 
   '@weapp-tailwindcss/postcss-calc@1.0.3(postcss@8.5.24)':
     dependencies:
