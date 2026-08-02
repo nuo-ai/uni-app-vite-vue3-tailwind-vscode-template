@@ -145,8 +145,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0(@types/node@26.1.2)(supports-color@10.2.2)
       weapp-tailwindcss:
-        specifier: ^5.2.8
-        version: 5.2.8(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3)
+        specifier: ^5.2.9
+        version: 5.2.9(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3)
 
 packages:
 
@@ -3235,8 +3235,8 @@ packages:
     peerDependencies:
       postcss: ^8.4.38
 
-  '@weapp-tailwindcss/postcss@3.2.6':
-    resolution: {integrity: sha512-haomG1gHeV1Mm8per6YePXzojTHEeih2GrulggU8qbtjfck0rEeHJLHcjzgd25aVI6CzfND+63N040ODGywNPQ==, tarball: https://registry.npmjs.org/@weapp-tailwindcss/postcss/-/postcss-3.2.6.tgz}
+  '@weapp-tailwindcss/postcss@3.2.7':
+    resolution: {integrity: sha512-E+ICHMYiNtJ05O2Fm1axrQxS8i+o5j741/+6vM4fKl/KzY49W5RBilupH4DJaPtNCLe74YzLGDhLQdeieG1ebw==, tarball: https://registry.npmjs.org/@weapp-tailwindcss/postcss/-/postcss-3.2.7.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   '@weapp-tailwindcss/reset@0.1.2':
@@ -7603,8 +7603,8 @@ packages:
     resolution: {integrity: sha512-gASfJhf7lq4nLS4MlnYwN7Mt7wq5cd7dP6ndGuvqn6y/Yb9S1JfMEcZnBaRu1tb76KczVKadKZ66McGtFbuXuQ==, tarball: https://registry.npmjs.org/weapp-style-injector/-/weapp-style-injector-1.0.2.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  weapp-tailwindcss@5.2.8:
-    resolution: {integrity: sha512-RtuC1a8Dyq2yQ339z1Nhb6BVzAKdE6M8Y2HQeHCoSR8yBZGvLNCITzIxnNGCJxbk6b2AyNL4BiQxtiyJVMBe2A==, tarball: https://registry.npmjs.org/weapp-tailwindcss/-/weapp-tailwindcss-5.2.8.tgz}
+  weapp-tailwindcss@5.2.9:
+    resolution: {integrity: sha512-n0guh35gPoICHxPRCil+6CVaMzFlkP+r27Mfqs9dyDCu44DlNUd4FQL6ifWlybfn/A5NeNdORTXhOalypy6yZg==, tarball: https://registry.npmjs.org/weapp-tailwindcss/-/weapp-tailwindcss-5.2.9.tgz}
     engines: {node: ^22.18.0 || >=24.11.0}
     hasBin: true
     peerDependencies:
@@ -11779,7 +11779,7 @@ snapshots:
       postcss-selector-parser: 7.1.4
       postcss-value-parser: 4.2.0
 
-  '@weapp-tailwindcss/postcss@3.2.6(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)':
+  '@weapp-tailwindcss/postcss@3.2.7(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)':
     dependencies:
       '@csstools/css-color-parser': 4.1.10(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
@@ -17181,7 +17181,7 @@ snapshots:
       '@weapp-tailwindcss/shared': 2.0.1
       micromatch: 4.0.8
 
-  weapp-tailwindcss@5.2.8(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3):
+  weapp-tailwindcss@5.2.9(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3):
     dependencies:
       '@babel/parser': 8.0.4
       '@babel/traverse': 8.0.4
@@ -17190,7 +17190,7 @@ snapshots:
       '@vue/compiler-dom': 3.5.40
       '@weapp-core/escape': 8.0.0
       '@weapp-tailwindcss/logger': 2.0.1
-      '@weapp-tailwindcss/postcss': 3.2.6(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)
+      '@weapp-tailwindcss/postcss': 3.2.7(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)
       '@weapp-tailwindcss/reset': 0.1.2(tailwindcss@4.3.3)
       '@weapp-tailwindcss/shared': 2.0.1
       comment-json: 5.0.0
