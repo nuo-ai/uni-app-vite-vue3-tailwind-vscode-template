@@ -142,11 +142,11 @@ importers:
         specifier: 5.2.8
         version: 5.2.8(@types/node@26.1.2)(lightningcss@1.32.0)(sass@1.102.0)(terser@5.31.3)
       weapp-ide-cli:
-        specifier: ^6.0.0
-        version: 6.0.0(@types/node@26.1.2)(supports-color@10.2.2)
+        specifier: ^6.0.1
+        version: 6.0.1(@types/node@26.1.2)(supports-color@10.2.2)
       weapp-tailwindcss:
-        specifier: ^5.2.9
-        version: 5.2.9(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3)
+        specifier: ^5.2.11
+        version: 5.2.11(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3)
 
 packages:
 
@@ -1394,6 +1394,9 @@ packages:
   '@emnapi/runtime@1.11.2':
     resolution: {integrity: sha512-kyOl3X0DuTiT1h2ft8r2fYO8JYtU9a9Xis/zBSiGArNaagCOWx90N1k2wxp18czFDH+OgcWGb5ZP/XMt3dcyPA==, tarball: https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.11.2.tgz}
 
+  '@emnapi/runtime@1.11.3':
+    resolution: {integrity: sha512-Xz4Tpyki7XyrpbUK1jR1AhdAdaXyhhY4lZ3neLodmhpuWfy2PAQN5B46sAiU4liOXGLkHypn/qU+jvfWSCYYLA==, tarball: https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.11.3.tgz}
+
   '@emnapi/wasi-threads@1.2.2':
     resolution: {integrity: sha512-c95qOXkHdydNKhscBTebqEC1CVAZpyqOfVfBzQ1qgzyl3gfeldUjIggDbIZgDKsHLgnsM+igH7TJ/eAasaVuMA==, tarball: https://registry.npmjs.org/@emnapi/wasi-threads/-/wasi-threads-1.2.2.tgz}
 
@@ -1653,9 +1656,9 @@ packages:
     resolution: {integrity: sha512-+CNAzxglkrpNf/kKywqQfk74QjtceuOE7Qm+AF8miRvPF/wmmK5+OJOgVh3AVTT3RP2mH3+FOaxlE5v72owk0A==, tarball: https://registry.npmjs.org/@eslint/plugin-kit/-/plugin-kit-0.7.2.tgz}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@hono/node-server@1.19.15':
-    resolution: {integrity: sha512-Za2ai6TLdKjUvnur+eenO6nuYYipVAEhyCAdaV8IRvmU9kK8crOZUSYvIXn72E4f8fJqyAbpcJuTsYYmZp9Deg==, tarball: https://registry.npmjs.org/@hono/node-server/-/node-server-1.19.15.tgz}
-    engines: {node: '>=18.14.1'}
+  '@hono/node-server@2.1.0':
+    resolution: {integrity: sha512-XovyyCCnBzW+zKu+z/zq8hwNs4KOR5rEMAOxo2f40Q5xoOI37IMm6MIg2COOUtUApo0i6850MTBKH2u4QLGIqg==, tarball: https://registry.npmjs.org/@hono/node-server/-/node-server-2.1.0.tgz}
+    engines: {node: '>=20'}
     peerDependencies:
       hono: ^4
 
@@ -2176,8 +2179,8 @@ packages:
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==, tarball: https://registry.npmjs.org/@keyv/serialize/-/serialize-1.1.1.tgz}
 
-  '@modelcontextprotocol/sdk@1.29.0':
-    resolution: {integrity: sha512-zo37mZA9hJWpULgkRpowewez1y6ML5GsXJPY8FI0tBBCd77HEvza4jDqRKOXgHNn867PVGCyTdzqpz0izu5ZjQ==, tarball: https://registry.npmjs.org/@modelcontextprotocol/sdk/-/sdk-1.29.0.tgz}
+  '@modelcontextprotocol/sdk@1.30.0':
+    resolution: {integrity: sha512-xKd8OIzlqNzcqcNumGAa6g+PW2kjD5vrpcKOnfldAUPP3j7lnqMPwlTXQm8gF+UwH72z0lqaRbjr9hqGz0eITA==, tarball: https://registry.npmjs.org/@modelcontextprotocol/sdk/-/sdk-1.30.0.tgz}
     engines: {node: '>=18'}
     peerDependencies:
       '@cfworker/json-schema': ^4.1.1
@@ -3217,8 +3220,8 @@ packages:
     resolution: {integrity: sha512-MDnvDafxs0oTxGggCPCclmIPlKZk2xHvxKAFq+2q7EjBFeT0nTa2ZLiJUxuxziXNQUihW8zop6gMR01j95IjEg==, tarball: https://registry.npmjs.org/@weapp-core/logger/-/logger-3.1.1.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  '@weapp-core/shared@3.0.6':
-    resolution: {integrity: sha512-bOYRnnVipd3COD7z1W+us9JKIwYMeMyRs8dXg7zgDb9Km9n94WhYKEv7xkTzL6Wljr5oSyZWR2Y39ExIdt9Xpg==, tarball: https://registry.npmjs.org/@weapp-core/shared/-/shared-3.0.6.tgz}
+  '@weapp-core/shared@3.1.0':
+    resolution: {integrity: sha512-o4Bnq6IefZsCmbS3vB7h+V/m2OMI7vCTmFl09qaksT22Ep0FXoqDyavJ/SFGYrAgBJJDgHoXAC9vNwH1MaeWzQ==, tarball: https://registry.npmjs.org/@weapp-core/shared/-/shared-3.1.0.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   '@weapp-tailwindcss/logger@2.0.1':
@@ -3235,8 +3238,8 @@ packages:
     peerDependencies:
       postcss: ^8.4.38
 
-  '@weapp-tailwindcss/postcss@3.2.7':
-    resolution: {integrity: sha512-E+ICHMYiNtJ05O2Fm1axrQxS8i+o5j741/+6vM4fKl/KzY49W5RBilupH4DJaPtNCLe74YzLGDhLQdeieG1ebw==, tarball: https://registry.npmjs.org/@weapp-tailwindcss/postcss/-/postcss-3.2.7.tgz}
+  '@weapp-tailwindcss/postcss@3.2.8':
+    resolution: {integrity: sha512-gcBIhstq/73t0NbeyV3bCJr3Am+0go0cUd/vTYbn1ExwBVD5CNclqAMVn4zGFC8TzkvZzcKU+cdvMEpm49t4IQ==, tarball: https://registry.npmjs.org/@weapp-tailwindcss/postcss/-/postcss-3.2.8.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   '@weapp-tailwindcss/reset@0.1.2':
@@ -3253,12 +3256,12 @@ packages:
     resolution: {integrity: sha512-URrvBhqbDFy53gPBhC7HNNICexR1vkgq3ht/k+X+4x2J+qs7Vo71AlRJmTYmw2+WFkBQjT3Y9r1eEIz6ugjCtw==, tarball: https://registry.npmjs.org/@weapp-tailwindcss/shared/-/shared-2.0.1.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  '@weapp-vite/devtools-runtime@0.4.9':
-    resolution: {integrity: sha512-+znRbg/Pv3IK9nTjsJTaowJy6krnbvCjKJkuMnJQdixg2mDQHE3sbhiWJusNi35XLTCl7UOdoU9Pjr7I1U67MQ==, tarball: https://registry.npmjs.org/@weapp-vite/devtools-runtime/-/devtools-runtime-0.4.9.tgz}
+  '@weapp-vite/devtools-runtime@0.4.10':
+    resolution: {integrity: sha512-8l9xhN1ujgvGCwwu27oeeqYjL4r6iJYKsrepyolQjMRFaUwAvtpSwS/v1pkp5mwLLjWrZQN9SKb5ut18k7vxTQ==, tarball: https://registry.npmjs.org/@weapp-vite/devtools-runtime/-/devtools-runtime-0.4.10.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  '@weapp-vite/miniprogram-automator@1.2.8':
-    resolution: {integrity: sha512-IYOIw7v0NJGRcpfqA8SoOdu0RRaDy5jskHl0SLiEBRjYET2R84rogvn/3ZqCoTPBuWZ2+B5BhnRUflznbl14Cw==, tarball: https://registry.npmjs.org/@weapp-vite/miniprogram-automator/-/miniprogram-automator-1.2.8.tgz}
+  '@weapp-vite/miniprogram-automator@1.2.9':
+    resolution: {integrity: sha512-S+RazIiJm7RoAG1+CKpiJi2BkQA8zK23DaHMNl9kAG58mwqyB4U3+8h/ribtdvlalgfJhgVbkT6lclZtHlskNw==, tarball: https://registry.npmjs.org/@weapp-vite/miniprogram-automator/-/miniprogram-automator-1.2.9.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   '@weapp-vite/qr@1.1.1':
@@ -4546,8 +4549,8 @@ packages:
     resolution: {integrity: sha512-E1q5hSUG2AmYQwQJ041nvgpkODHQvB+RKlB4IYdru6uJsyFTRyZAP463M+1lINorwbqAmUggi6+WwkD8lCS/Dw==, tarball: https://registry.npmjs.org/expect/-/expect-27.5.1.tgz}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
-  express-rate-limit@8.6.0:
-    resolution: {integrity: sha512-XKJXDsASUOo0LLtFwW5hCcQGH0N4WQc/Rn8/Pvoia+TJFOkkFPvrtW9lZOeeNcxQJspvOIERMwiRLsVFlhHEkA==, tarball: https://registry.npmjs.org/express-rate-limit/-/express-rate-limit-8.6.0.tgz}
+  express-rate-limit@8.6.2:
+    resolution: {integrity: sha512-YH4ru+eOJxQABscKFfRCy9R7x9QFGdezclVMwwgFFndzS2Xnm0uo6B0ABZsLhcpeptGv2qvuJVWlQr9gQZoC3A==, tarball: https://registry.npmjs.org/express-rate-limit/-/express-rate-limit-8.6.2.tgz}
     engines: {node: '>= 16'}
     peerDependencies:
       express: '>= 4.11'
@@ -4893,8 +4896,8 @@ packages:
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==, tarball: https://registry.npmjs.org/hermes-parser/-/hermes-parser-0.25.1.tgz}
 
-  hono@4.12.32:
-    resolution: {integrity: sha512-XcuyW9qE2kJn07PkecMOBd5Vq/hMy7mmGw+idz1yblbg9N17ijJODrvPkn7/dwL3Kulj8LcRJ69DLOWf91dRUg==, tarball: https://registry.npmjs.org/hono/-/hono-4.12.32.tgz}
+  hono@4.13.0:
+    resolution: {integrity: sha512-jhunvfHWxd7J5EFfSgH4xsYJzSe/lfqbUCxiyyeaQasUsXeEHXtzVid+7EOGByc5JnFa23SSFL3Y2RV/z1T+eQ==, tarball: https://registry.npmjs.org/hono/-/hono-4.13.0.tgz}
     engines: {node: '>=16.9.0'}
 
   hookified@1.15.1:
@@ -5025,8 +5028,8 @@ packages:
     resolution: {integrity: sha512-CYdFeFexxhv/Bcny+Q0BfOV+ltRlJcd4BBZBYFX/O0u4npJrgZtIcjokegtiSMAvlMTJ+Koq0GBCc//3bueQxw==, tarball: https://registry.npmjs.org/invert-kv/-/invert-kv-3.0.1.tgz}
     engines: {node: '>=8'}
 
-  ip-address@10.3.1:
-    resolution: {integrity: sha512-1e9d3kb97NHJTIJDZW9rKqW2h6+dFa50Dy0fpPSMQp2ADje5gvKsXmdiK6dwY5t76TaTt5+P5N1Y/LoToIxP6g==, tarball: https://registry.npmjs.org/ip-address/-/ip-address-10.3.1.tgz}
+  ip-address@10.4.0:
+    resolution: {integrity: sha512-oSK96Grm3aP6OrS263xVxbNDGVL7rzBtYdpGqlDG8iQdoenDoTs/nkki+DflYbAEE8Xl6o5YxhxlrKvI3nqKXQ==, tarball: https://registry.npmjs.org/ip-address/-/ip-address-10.4.0.tgz}
     engines: {node: '>= 12'}
 
   ipaddr.js@1.9.1:
@@ -5383,8 +5386,8 @@ packages:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==, tarball: https://registry.npmjs.org/jiti/-/jiti-2.7.0.tgz}
     hasBin: true
 
-  jose@6.2.4:
-    resolution: {integrity: sha512-N8acGzVsQy6M/fjFcxtysNc4Q379TcM5dM/qKkNtsHFji88yANnXTr7BLeP75iPnFwBfQzM/jg2BZ9+HZrHCZA==, tarball: https://registry.npmjs.org/jose/-/jose-6.2.4.tgz}
+  jose@6.2.8:
+    resolution: {integrity: sha512-Bsdjwm3Qsd/P0jR+BHDe3LytDfY7WBq2HmCCLIwuVRHMuEC9ae7/R474GIUdF1NgCyZjzVo/A9DOiOBtXq8ZoQ==, tarball: https://registry.npmjs.org/jose/-/jose-6.2.8.tgz}
 
   jpeg-js@0.3.7:
     resolution: {integrity: sha512-9IXdWudL61npZjvLuVe/ktHiA41iE8qFyLB+4VDTblEsWBzeg8WQTlktdUK4CdncUqtUgUg0bbOmTE2bKBKaBQ==, tarball: https://registry.npmjs.org/jpeg-js/-/jpeg-js-0.3.7.tgz}
@@ -7594,8 +7597,8 @@ packages:
   walker@1.0.8:
     resolution: {integrity: sha512-ts/8E8l5b7kY0vlWLewOkDXMmPdLcVV4GmOQLyxuSswIJsweeFZtAsMF7k1Nszz+TYBQrlYRmzOnr398y1JemQ==, tarball: https://registry.npmjs.org/walker/-/walker-1.0.8.tgz}
 
-  weapp-ide-cli@6.0.0:
-    resolution: {integrity: sha512-Q5pUPQYVHv192vEUQnsIgspPmaaBfNg3elEddY7v/LeoODdx/tOrHAEbF0GJQzsa+iHRHg1LPD/UhbVZnLDTMQ==, tarball: https://registry.npmjs.org/weapp-ide-cli/-/weapp-ide-cli-6.0.0.tgz}
+  weapp-ide-cli@6.0.1:
+    resolution: {integrity: sha512-5KBP3yKES+11jeMhaAXafDkiT067Da9Wvie8Dc0Zeruc1mrwfN0nNbM7aVQeJojf6WUO5bW8Ak5BTqgT0EJvkw==, tarball: https://registry.npmjs.org/weapp-ide-cli/-/weapp-ide-cli-6.0.1.tgz}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -7603,8 +7606,8 @@ packages:
     resolution: {integrity: sha512-gASfJhf7lq4nLS4MlnYwN7Mt7wq5cd7dP6ndGuvqn6y/Yb9S1JfMEcZnBaRu1tb76KczVKadKZ66McGtFbuXuQ==, tarball: https://registry.npmjs.org/weapp-style-injector/-/weapp-style-injector-1.0.2.tgz}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  weapp-tailwindcss@5.2.9:
-    resolution: {integrity: sha512-n0guh35gPoICHxPRCil+6CVaMzFlkP+r27Mfqs9dyDCu44DlNUd4FQL6ifWlybfn/A5NeNdORTXhOalypy6yZg==, tarball: https://registry.npmjs.org/weapp-tailwindcss/-/weapp-tailwindcss-5.2.9.tgz}
+  weapp-tailwindcss@5.2.11:
+    resolution: {integrity: sha512-d3MGrjn6z+pz2yHrEgTW9MOT1aVsj9tZV0JkdQTJrfYimVH/OKIFRSW2XVwqsTjB7ey8NL35H5NYWCf0oevkOQ==, tarball: https://registry.npmjs.org/weapp-tailwindcss/-/weapp-tailwindcss-5.2.11.tgz}
     engines: {node: ^22.18.0 || >=24.11.0}
     hasBin: true
     peerDependencies:
@@ -7710,8 +7713,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.21.1:
-    resolution: {integrity: sha512-+0NTnW77fFN/DjQi6k/Sq/Yvk4Sgajw7urW8V+asjXnRgDs9gyGkdb7EzgfhA4goXsRIZKE28fzIXBHEzhuiWw==, tarball: https://registry.npmjs.org/ws/-/ws-8.21.1.tgz}
+  ws@8.21.2:
+    resolution: {integrity: sha512-54dMVAo4WIe6SKy3vBgN+9bJZqqQ8IMRevAkOLQALhi49qkkQDQfWdAZ8KQlXiEabw88ARXXdUrlvtbKQX+aKw==, tarball: https://registry.npmjs.org/ws/-/ws-8.21.2.tgz}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -7789,8 +7792,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==, tarball: https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz}
     engines: {node: '>=10'}
 
-  yoctocolors@2.1.2:
-    resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==, tarball: https://registry.npmjs.org/yoctocolors/-/yoctocolors-2.1.2.tgz}
+  yoctocolors@2.2.0:
+    resolution: {integrity: sha512-xYqdZFUK/VYazNl/oCDYN+3WloWQwMfZxBoiNt6qNyk+xfOdi598muWE42rNZFp1kNOiqW936q5RhUdnpqElSg==, tarball: https://registry.npmjs.org/yoctocolors/-/yoctocolors-2.2.0.tgz}
     engines: {node: '>=18'}
 
   zod-to-json-schema@3.25.2:
@@ -9868,6 +9871,11 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
+  '@emnapi/runtime@1.11.3':
+    dependencies:
+      tslib: 2.8.1
+    optional: true
+
   '@emnapi/wasi-threads@1.2.2':
     dependencies:
       tslib: 2.8.1
@@ -10113,9 +10121,9 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@hono/node-server@1.19.15(hono@4.12.32)':
+  '@hono/node-server@2.1.0(hono@4.13.0)':
     dependencies:
-      hono: 4.12.32
+      hono: 4.13.0
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -10323,7 +10331,7 @@ snapshots:
 
   '@img/sharp-wasm32@0.35.3':
     dependencies:
-      '@emnapi/runtime': 1.11.2
+      '@emnapi/runtime': 1.11.3
     optional: true
 
   '@img/sharp-webcontainers-wasm32@0.35.3':
@@ -10856,9 +10864,9 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@modelcontextprotocol/sdk@1.29.0(supports-color@10.2.2)(zod@4.4.3)':
+  '@modelcontextprotocol/sdk@1.30.0(supports-color@10.2.2)(zod@4.4.3)':
     dependencies:
-      '@hono/node-server': 1.19.15(hono@4.12.32)
+      '@hono/node-server': 2.1.0(hono@4.13.0)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -10867,9 +10875,9 @@ snapshots:
       eventsource: 3.0.7
       eventsource-parser: 3.1.0
       express: 5.2.1(supports-color@10.2.2)
-      express-rate-limit: 8.6.0(express@5.2.1(supports-color@10.2.2))(supports-color@10.2.2)
-      hono: 4.12.32
-      jose: 6.2.4
+      express-rate-limit: 8.6.2(express@5.2.1(supports-color@10.2.2))(supports-color@10.2.2)
+      hono: 4.13.0
+      jose: 6.2.8
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
       raw-body: 3.0.2
@@ -11760,7 +11768,7 @@ snapshots:
       consola: 3.4.2
       picocolors: 1.1.1
 
-  '@weapp-core/shared@3.0.6': {}
+  '@weapp-core/shared@3.1.0': {}
 
   '@weapp-tailwindcss/logger@2.0.1':
     dependencies:
@@ -11779,7 +11787,7 @@ snapshots:
       postcss-selector-parser: 7.1.4
       postcss-value-parser: 4.2.0
 
-  '@weapp-tailwindcss/postcss@3.2.7(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)':
+  '@weapp-tailwindcss/postcss@3.2.8(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)':
     dependencies:
       '@csstools/css-color-parser': 4.1.10(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
@@ -11823,19 +11831,19 @@ snapshots:
       pathe: 2.0.3
       set-value: 4.1.0
 
-  '@weapp-vite/devtools-runtime@0.4.9(@types/node@26.1.2)':
+  '@weapp-vite/devtools-runtime@0.4.10(@types/node@26.1.2)':
     dependencies:
-      '@weapp-vite/miniprogram-automator': 1.2.8(@types/node@26.1.2)
+      '@weapp-vite/miniprogram-automator': 1.2.9(@types/node@26.1.2)
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
       - utf-8-validate
 
-  '@weapp-vite/miniprogram-automator@1.2.8(@types/node@26.1.2)':
+  '@weapp-vite/miniprogram-automator@1.2.9(@types/node@26.1.2)':
     dependencies:
       '@weapp-vite/qr': 1.1.1(@types/node@26.1.2)
       obug: 2.1.4
-      ws: 8.21.1
+      ws: 8.21.2
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -13336,7 +13344,7 @@ snapshots:
       signal-exit: 4.1.0
       strip-final-newline: 4.0.0
       which-command: 0.1.0
-      yoctocolors: 2.1.2
+      yoctocolors: 2.2.0
 
   execa@5.1.1:
     dependencies:
@@ -13361,11 +13369,11 @@ snapshots:
       jest-matcher-utils: 27.5.1
       jest-message-util: 27.5.1
 
-  express-rate-limit@8.6.0(express@5.2.1(supports-color@10.2.2))(supports-color@10.2.2):
+  express-rate-limit@8.6.2(express@5.2.1(supports-color@10.2.2))(supports-color@10.2.2):
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       express: 5.2.1(supports-color@10.2.2)
-      ip-address: 10.3.1
+      ip-address: 10.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -13786,7 +13794,7 @@ snapshots:
     dependencies:
       hermes-estree: 0.25.1
 
-  hono@4.12.32: {}
+  hono@4.13.0: {}
 
   hookified@1.15.1: {}
 
@@ -13913,7 +13921,7 @@ snapshots:
 
   invert-kv@3.0.1: {}
 
-  ip-address@10.3.1: {}
+  ip-address@10.4.0: {}
 
   ipaddr.js@1.9.1: {}
 
@@ -14506,7 +14514,7 @@ snapshots:
 
   jiti@2.7.0: {}
 
-  jose@6.2.4: {}
+  jose@6.2.8: {}
 
   jpeg-js@0.3.7: {}
 
@@ -17156,13 +17164,13 @@ snapshots:
     dependencies:
       makeerror: 1.0.12
 
-  weapp-ide-cli@6.0.0(@types/node@26.1.2)(supports-color@10.2.2):
+  weapp-ide-cli@6.0.1(@types/node@26.1.2)(supports-color@10.2.2):
     dependencies:
-      '@modelcontextprotocol/sdk': 1.29.0(supports-color@10.2.2)(zod@4.4.3)
+      '@modelcontextprotocol/sdk': 1.30.0(supports-color@10.2.2)(zod@4.4.3)
       '@weapp-core/logger': 3.1.1
-      '@weapp-core/shared': 3.0.6
-      '@weapp-vite/devtools-runtime': 0.4.9(@types/node@26.1.2)
-      '@weapp-vite/miniprogram-automator': 1.2.8(@types/node@26.1.2)
+      '@weapp-core/shared': 3.1.0
+      '@weapp-vite/devtools-runtime': 0.4.10(@types/node@26.1.2)
+      '@weapp-vite/miniprogram-automator': 1.2.9(@types/node@26.1.2)
       cac: 7.0.0
       execa: 10.0.0
       pathe: 2.0.3
@@ -17181,7 +17189,7 @@ snapshots:
       '@weapp-tailwindcss/shared': 2.0.1
       micromatch: 4.0.8
 
-  weapp-tailwindcss@5.2.9(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3):
+  weapp-tailwindcss@5.2.11(@oxc-project/types@0.142.0)(jiti@2.7.0)(supports-color@10.2.2)(tailwindcss@4.3.3):
     dependencies:
       '@babel/parser': 8.0.4
       '@babel/traverse': 8.0.4
@@ -17190,7 +17198,7 @@ snapshots:
       '@vue/compiler-dom': 3.5.40
       '@weapp-core/escape': 8.0.0
       '@weapp-tailwindcss/logger': 2.0.1
-      '@weapp-tailwindcss/postcss': 3.2.7(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)
+      '@weapp-tailwindcss/postcss': 3.2.8(jiti@2.7.0)(tailwindcss@4.3.3)(yaml@2.9.0)
       '@weapp-tailwindcss/reset': 0.1.2(tailwindcss@4.3.3)
       '@weapp-tailwindcss/shared': 2.0.1
       comment-json: 5.0.0
@@ -17315,7 +17323,7 @@ snapshots:
 
   ws@8.18.0: {}
 
-  ws@8.21.1: {}
+  ws@8.21.2: {}
 
   xhr@2.6.0:
     dependencies:
@@ -17374,7 +17382,7 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  yoctocolors@2.1.2: {}
+  yoctocolors@2.2.0: {}
 
   zod-to-json-schema@3.25.2(zod@4.4.3):
     dependencies:
