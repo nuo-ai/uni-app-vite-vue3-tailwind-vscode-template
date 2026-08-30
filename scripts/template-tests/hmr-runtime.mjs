@@ -561,8 +561,9 @@ async function preflight(selected) {
 
   if (selected.includes('mp-weixin')) {
     await fs.access('/Applications/wechatwebdevtools.app/Contents/MacOS/cli')
-    const check = spawnSync('pnpm', ['exec', 'weapp', 'doctor'], { cwd, encoding: 'utf8' })
-    if (check.status !== 0) {
+    const check = spawnSync('pnpm', ['exec', 'weapp', 'islogin'], { cwd, encoding: 'utf8' })
+    const output = `${check.stdout ?? ''}\n${check.stderr ?? ''}`
+    if (check.status !== 0 || !/"login"\s*:\s*true/i.test(output)) {
       throw new Error('WeChat DevTools is not logged in or its service port is unavailable. Run pnpm weapp:login first.')
     }
   }
@@ -604,7 +605,7 @@ function collectEnvironment(selected) {
   if (selected.includes('mp-weixin')) {
     info.wechatDevtools = {
       cli: '/Applications/wechatwebdevtools.app/Contents/MacOS/cli',
-      doctor: commandText('pnpm', ['exec', 'weapp', 'doctor']),
+      islogin: commandText('pnpm', ['exec', 'weapp', 'islogin']),
     }
   }
   if (selected.some(platform => platform.startsWith('app-'))) {

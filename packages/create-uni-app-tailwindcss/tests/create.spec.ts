@@ -22,6 +22,7 @@ for (const template of registry.templates) {
       ], packageRoot)
       const pkg = JSON.parse(await readFile(path.join(projectDir, 'package.json'), 'utf8'))
       expect(pkg.name).toBe(`${template.id}-app`)
+      expect(pkg.devDependencies['weapp-tailwindcss']).toBe('^5.4.1')
       expect(pkg.scripts['update:deps']).toBe('pnpm up --latest --interactive "!@dcloudio/*" "!@vue/runtime-core" "!@vue/shared" "!rollup" "!vite" "!vue" "!vue-i18n"')
       expect(pkg.scripts['update:uni-app']).toBe('pnpm dlx @dcloudio/uvm@latest --manager pnpm')
       expect(pkg.scripts['test:hmr:h5']).toBeUndefined()

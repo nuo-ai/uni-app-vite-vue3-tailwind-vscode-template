@@ -143,8 +143,8 @@ async function runWeChatLane(source, projectRoot) {
     return
   }
 
-  const doctor = await execCapture('pnpm', ['exec', 'weapp', 'doctor'], projectRoot)
-  if (doctor.code !== 0) {
+  const login = await execCapture('pnpm', ['exec', 'weapp', 'islogin'], projectRoot)
+  if (login.code !== 0 || !/"login"\s*:\s*true/i.test(`${login.stdout}\n${login.stderr}`)) {
     recordLane(`${source}:mp-weixin`, 'BLOCKED', 'WeChat DevTools login is expired or its service port is unavailable', `pnpm --dir ${projectRoot} weapp:login`)
     return
   }
