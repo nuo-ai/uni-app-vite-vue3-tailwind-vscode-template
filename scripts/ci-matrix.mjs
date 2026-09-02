@@ -4,12 +4,14 @@ const registry = await loadTemplateRegistry()
 const build = registry.templates.flatMap(template => template.targets.map(target => ({
   isDefault: template.id === registry.defaultTemplate,
   script: `build:${target}`,
+  source: template.source,
   target,
   template: template.id,
 })))
 const hmr = registry.templates.flatMap(template => (template.hmrTargets ?? []).map(target => ({
   isDefault: template.id === registry.defaultTemplate,
   script: `test:hmr:artifact:${target}`,
+  source: template.source,
   target,
   template: template.id,
 })))

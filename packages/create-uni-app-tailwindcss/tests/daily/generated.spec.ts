@@ -14,9 +14,11 @@ const reportDir = process.env.USER_JOURNEY_REPORT_DIR ?? ''
 const source = process.env.USER_JOURNEY_SOURCE ?? 'unknown'
 const dailyPage = path.join(projectDir, 'src/pages/daily-user/index.vue')
 const dailyUtilityMarker = '/* DAILY_USER_JOURNEY_UTILITY */'
+const artifactHmrTargets = ['app', 'mp-weixin', 'mp-alipay', 'mp-toutiao'] as const
 const requiredStages = [
   'create', 'hygiene', 'install', 'frozen-install', 'user-edit', 'lint',
-  'h5-dev', 'h5-desktop', 'h5-mobile', 'h5-hmr', 'mp-weixin-hmr',
+  'h5-dev', 'h5-desktop', 'h5-mobile', 'h5-hmr',
+  ...artifactHmrTargets.map(target => `${target}-hmr`),
   'build-h5', 'build-app', 'build-mp-weixin', 'build-mp-alipay', 'build-mp-toutiao',
   'deploy-h5-static', 'deploy-h5-workers', 'deploy-app',
   'deploy-mp-weixin', 'deploy-mp-alipay', 'deploy-mp-toutiao',
@@ -28,6 +30,7 @@ let devUrl = ''
 let productionServer: ChildProcess | undefined
 let productionUrl = ''
 let hygieneViolations: string[] = []
+const lifecycleFailures: string[] = []
 
 test.describe('generated project user lifecycle', () => {
   test.beforeAll(async () => {
@@ -48,11 +51,11 @@ test.describe('generated project user lifecycle', () => {
       hygieneViolations.push('Generated importer borrowed a workspace or link dependency')
     }
     await execute('user-edit', injectDailyPage)
-    await execute('lint', () => runCommand('pnpm', ['run', 'lint'], projectDir))
+    if (!await attempt('lint', () => runCommand('pnpm', ['run', 'lint'], projectDir))) lifecycleFailures.push('lint')
     const port = await getFreePort()
     devUrl = `http://127.0.0.1:${port}`
     devServer = spawnManaged(packageManagerCommand(), ['run', 'dev:h5', '--port', String(port)], projectDir, 'h5-dev')
-    await execute('h5-dev', () => waitForServer(devUrl))
+    if (!await attempt('h5-dev', () => waitForServer(devUrl))) lifecycleFailures.push('h5-dev')
   })
 
   test.afterAll(async () => {
@@ -61,7 +64,7 @@ test.describe('generated project user lifecycle', () => {
   })
 
   test('ships a clean standalone project contract', async () => {
-    await execute('hygiene', async () => expect(hygieneViolations).toEqual([]))
+    if (!await attempt('hygiene', async () => expect(hygieneViolations).toEqual([]))) lifecycleFailures.push('hygiene')
   })
 
   for (const viewport of [
@@ -69,7 +72,8 @@ test.describe('generated project user lifecycle', () => {
     { name: 'mobile', width: 390, height: 844 },
   ]) {
     test(`supports normal H5 development on ${viewport.name}`, async ({ page }) => {
-      await execute(`h5-${viewport.name}`, async () => {
+      const stage = `h5-${viewport.name}`
+      if (!await attempt(stage, async () => {
         const runtimeErrors: string[] = []
         page.on('pageerror', error => runtimeErrors.push(error.message))
         page.on('console', (entry) => {
@@ -85,12 +89,12 @@ test.describe('generated project user lifecycle', () => {
           && images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBe(true)
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
         expect(runtimeErrors).toEqual([])
-      })
+      })) lifecycleFailures.push(stage)
     })
   }
 
   test('preserves state across template and Tailwind HMR', async ({ page }) => {
-    await execute('h5-hmr', async () => {
+    if (!await attempt('h5-hmr', async () => {
       await page.goto(`${devUrl}/#/pages/daily-user/index`, { waitUntil: 'networkidle' })
       await page.getByTestId('daily-counter').click()
       await expect(page.getByTestId('daily-counter-value')).toHaveText('1')
@@ -108,17 +112,21 @@ test.describe('generated project user lifecycle', () => {
         const response = await fetch(`${devUrl}/src/tailwind.css?direct&daily=${Date.now()}`)
         return response.text()
       }).toContain('#dc2626')
-    })
+    })) lifecycleFailures.push('h5-hmr')
   })
 
   test('builds and validates all deployable targets', async ({ browser }) => {
     await stopProcess(devServer)
     devServer = undefined
-    const failures: string[] = []
-    if (!await attempt('mp-weixin-hmr', () => runCommand('node', [
-      path.join(repoRoot, 'scripts/template-tests/hmr-smoke.mjs'),
-      '--platform', 'mp-weixin', '--script', 'dev:mp-weixin', '--timeout', '240000',
-    ], projectDir))) failures.push('mp-weixin-hmr')
+    const failures = [...lifecycleFailures]
+    for (const target of artifactHmrTargets) {
+      const stage = `${target}-hmr`
+      if (!await attempt(stage, () => runCommand('node', [
+        path.join(repoRoot, 'scripts/template-tests/hmr-smoke.mjs'),
+        '--platform', target, '--script', `dev:${target}`, '--timeout', '240000',
+        '--report-dir', path.join(reportDir, 'hmr', target),
+      ], projectDir))) failures.push(stage)
+    }
 
     for (const target of ['h5', 'app', 'mp-weixin', 'mp-alipay', 'mp-toutiao']) {
       if (!await attempt(`build-${target}`, () => runCommand('pnpm', ['run', `build:${target}`], projectDir))) failures.push(`build-${target}`)

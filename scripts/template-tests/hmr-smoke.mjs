@@ -12,11 +12,23 @@ const platform = args.platform
 const devScript = args.script ?? `dev:${platform}`
 const timeoutMs = Number(args.timeout ?? 180_000)
 const pollMs = Number(args.poll ?? 700)
+const reportDir = path.resolve(args['report-dir'] ?? '.hmr-artifacts')
 const artifactTypes = new Map([
+  ['.acss', 'styles'],
+  ['.axml', 'templates'],
   ['.css', 'styles'],
+  ['.html', 'templates'],
   ['.js', 'scripts'],
+  ['.ttml', 'templates'],
+  ['.ttss', 'styles'],
   ['.wxml', 'templates'],
   ['.wxss', 'styles'],
+])
+const platformContracts = new Map([
+  ['app', { styleExtension: '.css', variantClass: 'not-wx_cborder-rose-500' }],
+  ['mp-alipay', { styleExtension: '.acss', variantClass: 'not-wx_cborder-rose-500' }],
+  ['mp-toutiao', { styleExtension: '.ttss', variantClass: 'not-wx_cborder-rose-500' }],
+  ['mp-weixin', { styleExtension: '.wxss', variantClass: 'wx_cborder-blue-500' }],
 ])
 
 let devProcess
@@ -27,7 +39,8 @@ installSignalHandler('SIGINT')
 installSignalHandler('SIGTERM')
 process.once('exit', () => fixture?.restoreSync())
 
-main().catch((error) => {
+main().catch(async (error) => {
+  await writeReport('FAIL', { error: error instanceof Error ? error.message : String(error) })
   console.error(`\n[hmr-smoke] FAILED: ${error instanceof Error ? error.message : String(error)}`)
   process.exitCode = 1
 }).finally(async () => {
@@ -38,6 +51,9 @@ main().catch((error) => {
 async function main() {
   if (!platform) {
     throw new Error('Missing required argument: --platform <platform>')
+  }
+  if (!platformContracts.has(platform)) {
+    throw new Error(`Unsupported artifact HMR platform: ${platform}`)
   }
 
   fixture = await createFixtureController()
@@ -60,7 +76,22 @@ async function main() {
   await waitForDirMtimeBump(outputDir, beforeMtime)
   const updatedSnapshot = await waitForArtifactSnapshot(outputDir, 'updated')
   console.log(`[hmr-smoke] updated artifact files=${updatedSnapshot.files.length}`)
+  await writeReport('PASS', {
+    initialFiles: initialSnapshot.files,
+    updatedFiles: updatedSnapshot.files,
+  })
   console.log('[hmr-smoke] PASS')
+}
+
+async function writeReport(status, details = {}) {
+  await fs.mkdir(reportDir, { recursive: true })
+  await fs.writeFile(path.join(reportDir, `artifact-${platform ?? 'unknown'}.json`), `${JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    platform,
+    script: devScript,
+    status,
+    ...details,
+  }, null, 2)}\n`)
 }
 
 function runDevScript(scriptName) {
@@ -89,6 +120,7 @@ async function waitForArtifactSnapshot(dir, stateName) {
   const height = state.heightClass.slice(3, -1)
   const radius = state.radiusClass.slice(9, -1)
   const transformedColor = `bg-_b_h${hex.slice(1)}_B`
+  const contract = platformContracts.get(platform)
   const startedAt = Date.now()
   let lastSnapshot = { files: [], scripts: '', styles: '', templates: '' }
   let assertions = {}
@@ -98,19 +130,20 @@ async function waitForArtifactSnapshot(dir, stateName) {
       throw new Error('Interrupted while waiting for artifact HMR evidence')
     }
     lastSnapshot = await readArtifactSnapshot(dir)
+    const markupEvidence = `${lastSnapshot.templates}\n${lastSnapshot.scripts}`
     assertions = {
-      baseUtilities: lastSnapshot.templates.includes('flex') && lastSnapshot.templates.includes('font-bold'),
+      baseUtilities: markupEvidence.includes('flex') && markupEvidence.includes('font-bold'),
+      platformStyles: lastSnapshot.files.some(file => path.extname(file) === contract.styleExtension),
       scriptClass: lastSnapshot.scripts.includes(transformedColor)
-        && lastSnapshot.scripts.includes('wx_cborder-blue-500')
-        && lastSnapshot.scripts.includes('not-wx_cborder-rose-500'),
+        && lastSnapshot.scripts.includes(contract.variantClass),
       styleColor: lastSnapshot.styles.toLowerCase().includes(hex.toLowerCase()),
       styleHeight: lastSnapshot.styles.includes(height),
-      stylePlatformVariant: lastSnapshot.styles.includes('wx_cborder-blue-500'),
+      stylePlatformVariant: lastSnapshot.styles.includes(contract.variantClass),
       stylePseudo: lastSnapshot.styles.includes(state.pseudo),
       styleRadius: lastSnapshot.styles.includes(radius),
-      templateArbitraryValues: lastSnapshot.templates.includes(`h-_b${height}_B`)
-        && lastSnapshot.templates.includes(`rounded-_b${radius}_B`),
-      templateText: lastSnapshot.templates.includes(state.text),
+      templateArbitraryValues: markupEvidence.includes(`h-_b${height}_B`)
+        && markupEvidence.includes(`rounded-_b${radius}_B`),
+      templateText: markupEvidence.includes(state.text),
     }
     if (lastSnapshot.files.length > 0 && Object.values(assertions).every(Boolean)) {
       console.log(`[hmr-smoke] ${stateName}: template, script and style markers found`)

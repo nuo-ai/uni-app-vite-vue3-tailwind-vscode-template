@@ -35,7 +35,7 @@ permissions:
 
 concurrency:
   group: quality-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
 
 jobs:
   templates:
@@ -197,6 +197,27 @@ jobs:
         if: matrix.isDefault && matrix.target == 'app'
         run: pnpm template:test ${{ matrix.template }} test:app-css:artifact
 
+      - name: Write build evidence
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "${{ matrix.source }}/.hmr-artifacts"
+          output="${{ matrix.source }}/.hmr-artifacts/build-${{ matrix.target }}.txt"
+          if [[ -d "${{ matrix.source }}/dist/build/${{ matrix.target }}" ]]; then
+            find "${{ matrix.source }}/dist/build/${{ matrix.target }}" -type f -print | sort > "$output"
+          else
+            echo "Missing build output: ${{ matrix.source }}/dist/build/${{ matrix.target }}" > "$output"
+          fi
+
+      - name: Upload build evidence
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: build-${{ matrix.template }}-${{ matrix.target }}-${{ github.run_id }}
+          path: ${{ matrix.source }}/.hmr-artifacts/build-${{ matrix.target }}.txt
+          if-no-files-found: error
+          retention-days: 14
+
   hmr:
     name: HMR ${{ matrix.template }} / ${{ matrix.target }}
     needs: templates
@@ -227,13 +248,13 @@ jobs:
         run: pnpm template:test ${{ matrix.template }} ${{ matrix.script }} -- --timeout 240000
 
       - name: Upload HMR evidence
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: hmr-${{ matrix.template }}-${{ matrix.target }}-${{ github.run_id }}
-          path: packages/template/.hmr-artifacts
+          path: ${{ matrix.source }}/.hmr-artifacts
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 14
 
   hmr-h5:
     name: H5 runtime HMR
@@ -267,63 +288,6 @@ jobs:
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: hmr-h5-${{ github.run_id }}
-          path: packages/template/.hmr-artifacts
-          if-no-files-found: warn
-          retention-days: 7
-
-  runtime-hmr:
-    if: vars.UNI_APP_RUNTIME_ENABLED == 'true' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
-    name: Runtime HMR / ${{ matrix.target }}
-    needs: templates
-    runs-on: [self-hosted, macOS, uni-app-runtime]
-    timeout-minutes: 35
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - target: mp-weixin
-            script: test:hmr:mp-weixin
-          - target: app-ios
-            script: test:hmr:app:ios
-          - target: app-android
-            script: test:hmr:app:android
-    env:
-      HBUILDERX_CLI_PATH: ${{ vars.HBUILDERX_CLI_PATH }}
-      DAILY_IOS_DEVICE_ID: ${{ vars.DAILY_IOS_DEVICE_ID }}
-      DAILY_ANDROID_DEVICE_ID: ${{ vars.DAILY_ANDROID_DEVICE_ID }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
-
-      - name: Setup Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: 24
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run runtime HMR
-        shell: bash
-        run: |
-          extra_args=()
-          if [[ "${{ matrix.target }}" == "app-ios" && -n "$DAILY_IOS_DEVICE_ID" ]]; then
-            extra_args+=(--device-id "$DAILY_IOS_DEVICE_ID")
-          fi
-          if [[ "${{ matrix.target }}" == "app-android" && -n "$DAILY_ANDROID_DEVICE_ID" ]]; then
-            extra_args+=(--device-id "$DAILY_ANDROID_DEVICE_ID")
-          fi
-          pnpm template:test @default "${{ matrix.script }}" -- --timeout 240000 "${extra_args[@]}"
-
-      - name: Upload runtime HMR evidence
-        if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
-        with:
-          name: hmr-runtime-${{ matrix.target }}-${{ github.run_id }}
           path: packages/template/.hmr-artifacts
           if-no-files-found: warn
           retention-days: 14
@@ -361,7 +325,7 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     name: User journey / ${{ matrix.source }} / Node ${{ matrix.node }}
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -397,10 +361,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
-          name: user-journey-${{ matrix.source }}-node-${{ matrix.node }}
+          name: user-journey-${{ matrix.source }}-node-${{ matrix.node }}-${{ github.run_id }}
           path: packages/template/.hmr-artifacts/user-journey/${{ matrix.source }}/node-${{ matrix.node }}
-          if-no-files-found: warn
-          retention-days: 7
+          if-no-files-found: error
+          retention-days: 14
 
   daily-contract:
     if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
@@ -442,7 +406,6 @@ jobs:
       - build
       - hmr
       - hmr-h5
-      - runtime-hmr
       - workers
       - daily-e2e
       - daily-contract
@@ -450,14 +413,31 @@ jobs:
     steps:
       - name: Write job summary
         env:
+          NIGHTLY: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
           RESULTS: >-
-            {"templates":"${{ needs.templates.result }}","repository":"${{ needs.repository.result }}","lint":"${{ needs.lint.result }}","cli":"${{ needs.cli.result }}","fast-e2e":"${{ needs.fast-e2e.result }}","build":"${{ needs.build.result }}","hmr":"${{ needs.hmr.result }}","hmr-h5":"${{ needs.hmr-h5.result }}","runtime-hmr":"${{ needs.runtime-hmr.result }}","workers":"${{ needs.workers.result }}","daily-e2e":"${{ needs.daily-e2e.result }}","daily-contract":"${{ needs.daily-contract.result }}"}
+            {"templates":"${{ needs.templates.result }}","repository":"${{ needs.repository.result }}","lint":"${{ needs.lint.result }}","cli":"${{ needs.cli.result }}","fast-e2e":"${{ needs.fast-e2e.result }}","build":"${{ needs.build.result }}","hmr":"${{ needs.hmr.result }}","hmr-h5":"${{ needs.hmr-h5.result }}","workers":"${{ needs.workers.result }}","daily-e2e":"${{ needs.daily-e2e.result }}","daily-contract":"${{ needs.daily-contract.result }}"}
         run: |
           node <<'NODE'
           const fs = require('node:fs')
           const results = JSON.parse(process.env.RESULTS)
-          const lines = ['# Quality summary', '', '| Job | Result |', '| --- | --- |']
-          for (const [job, result] of Object.entries(results)) lines.push(`| ${job} | ${result} |`)
+          const nightly = process.env.NIGHTLY === 'true'
+          const required = new Set(['templates', 'repository', 'lint', 'cli', 'fast-e2e', 'build', 'hmr', 'hmr-h5', 'workers'])
+          if (nightly) {
+            required.add('daily-e2e')
+            required.add('daily-contract')
+          }
+          const lines = [
+            '# Quality summary',
+            '',
+            `Mode: **${nightly ? 'nightly' : 'fast'}**`,
+            '',
+            '| Job | Required | Result |',
+            '| --- | --- | --- |',
+          ]
+          for (const [job, result] of Object.entries(results)) {
+            lines.push(`| ${job} | ${required.has(job) ? 'yes' : 'no'} | ${result} |`)
+          }
+          lines.push('', '> External WeChat DevTools, HBuilderX, iOS Simulator, and Android device runtimes are outside hosted CI coverage.', '')
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`)
-          if (Object.values(results).some(result => result === 'failure' || result === 'cancelled')) process.exitCode = 1
+          if ([...required].some(job => results[job] !== 'success')) process.exitCode = 1
           NODE

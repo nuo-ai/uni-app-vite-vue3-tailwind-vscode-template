@@ -8,7 +8,7 @@
       "description": "uni-app + Vite + Vue 3 + Tailwind CSS",
       "source": "packages/template",
       "targets": ["h5", "app", "mp-weixin", "mp-alipay", "mp-toutiao"],
-      "hmrTargets": ["mp-weixin"],
+      "hmrTargets": ["app", "mp-weixin", "mp-alipay", "mp-toutiao"],
       "smokeText": ["能力速览", "一份模板，串联更多设计场景"]
     }
   ]

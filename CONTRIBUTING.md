@@ -48,7 +48,10 @@ pnpm test:smoke
 仓库级脚本位于 `scripts/template-tests/`，不会被打包进生成项目：
 
 ```bash
+pnpm test:hmr:artifact:app
 pnpm test:hmr:artifact:mp-weixin
+pnpm test:hmr:artifact:mp-alipay
+pnpm test:hmr:artifact:mp-toutiao
 pnpm test:hmr:h5
 pnpm test:hmr:mp-weixin
 pnpm test:hmr:app:android -- --device-id <android-device-id> --hbuilderx-cli <hbuilderx-cli>
@@ -59,11 +62,11 @@ pnpm test:hmr:all
 
 验收脚本会创建测试专用临时路由并触碰 Tailwind 入口，在正常退出、异常或中断后恢复源文件。截图、日志和 JSON/Markdown 报告默认写入忽略的 `packages/template/.hmr-artifacts/`。
 
-H5 验收在 macOS 本地默认使用 Google Chrome，在 Linux CI 使用 Playwright Chromium；微信运行时验收需要已登录且服务端口可用的微信开发者工具；App 验收需要与 `@dcloudio/vite-plugin-uni` compiler 版本匹配的 HBuilderX、Android SDK/`adb` 或 Xcode 命令行工具以及目标设备。`test:app-css:artifact` 只检查已有 App 构建产物，不会重复编译。Quality workflow 会在托管 Linux runner 上运行 H5 runtime HMR 和微信产物 HMR；设置仓库变量 `UNI_APP_RUNTIME_ENABLED=true` 后，可在带有 `self-hosted, macOS, uni-app-runtime` 标签的自托管 runner 上运行微信、iOS 和 Android runtime HMR。缺少桌面工具或设备时，本地 daily runner 应报告 `BLOCKED`。
+H5 验收在 macOS 本地默认使用 Google Chrome，在 Linux CI 使用 Playwright Chromium；微信运行时验收需要已登录且服务端口可用的微信开发者工具；App 验收需要与 `@dcloudio/vite-plugin-uni` compiler 版本匹配的 HBuilderX、Android SDK/`adb` 或 Xcode 命令行工具以及目标设备。`test:app-css:artifact` 只检查已有 App 构建产物，不会重复编译。Quality workflow 会在托管 Linux runner 上运行 H5 runtime HMR，并验证 App、微信、支付宝和字节编译产物的增量更新。真实微信 DevTools、HBuilderX、iOS Simulator 和 Android 设备运行时不属于托管 CI 覆盖范围；缺少桌面工具或设备时，本地 daily runner 应报告 `BLOCKED`。
 
 ## 每日全面测试
 
-`Quality` GitHub Actions workflow 每天 03:00（Asia/Shanghai）运行仓库检查、lint、CLI 构建、五平台生产构建、Workers dry-run、快速 E2E、H5 runtime HMR 和微信产物级 HMR。每日用户生命周期使用 `candidate/latest × Node 22/24` 四组合矩阵；contract job 要求所有声明场景执行，并比较 candidate 与 npm latest 的规范化文件、脚本和依赖指纹。启用自托管 runtime runner 后，定时或手动 workflow 还会执行微信 DevTools、iOS Simulator 和 Android 设备 HMR，并上传 `.hmr-artifacts` 证据。
+`Quality` GitHub Actions workflow 每天 03:00（Asia/Shanghai）运行仓库检查、lint、CLI 构建、五平台生产构建、Workers dry-run、快速 E2E、H5 runtime HMR 和四个非 H5 目标的产物级 HMR。每日用户生命周期使用 `candidate/latest × Node 22/24` 四组合矩阵；contract job 要求所有声明场景执行，并比较 candidate 与 npm latest 的规范化文件、脚本和依赖指纹。定时和手动 workflow 都会上传阶段日志、Playwright 证据、构建清单与 HMR 报告。
 
 ```bash
 pnpm test:e2e:daily

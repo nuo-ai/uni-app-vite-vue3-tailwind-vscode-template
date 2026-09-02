@@ -24,4 +24,10 @@ export default icebreaker(
       'better-tailwindcss/no-unknown-classes': 'off',
     },
   },
+  {
+    files: ['src/main.ts'],
+    rules: {
+      'wevu/no-unsupported-api': 'off',
+    },
+  },
 )

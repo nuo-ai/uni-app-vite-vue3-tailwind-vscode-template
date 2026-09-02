@@ -17,7 +17,7 @@ Use `pnpm install` to install dependencies. `weapp-tailwindcss@5` handles Tailwi
 - `pnpm test:e2e:daily`: run the full candidate and npm-latest user lifecycle; use `-- --source candidate|latest|all` to select sources.
 - `pnpm test:e2e:daily:unit`: verify source parsing, fingerprint comparison, coverage, and status aggregation.
 - `pnpm test:daily:runtime`: create candidate/latest projects and run their H5, WeChat, iOS, Android, and scheduled GitHub lanes; reports use exit codes 0/1/2 for pass/fail/blocked.
-- `pnpm test:hmr:artifact:mp-weixin`: run the headless Mini Program artifact HMR check used by CI.
+- `pnpm test:hmr:artifact:<target>`: run the headless App or Mini Program artifact HMR check used by CI; supported targets are `app`, `mp-weixin`, `mp-alipay`, and `mp-toutiao`.
 - `pnpm test:hmr:h5`: verify H5 HMR in a real browser and write evidence under `packages/template/.hmr-artifacts/`.
 - `pnpm test:hmr:mp-weixin`: verify HMR against a logged-in WeChat DevTools runtime.
 - `pnpm test:app-css:artifact`: verify App CSS compatibility from an existing `build:app` output without rebuilding it.
@@ -40,9 +40,9 @@ Playwright tests live in `packages/create-uni-app-tailwindcss/tests/` and cover 
 
 ### HMR Verification Notes
 
-Use `pnpm test:hmr:artifact:mp-weixin` for the deterministic headless CI path. It applies the shared probe fixture atomically, verifies transformed template/script/style artifacts before and after an incremental compile, and restores the source even after interruption.
+Use the matching `pnpm test:hmr:artifact:<target>` script for the deterministic headless CI path. It applies the shared probe fixture atomically, verifies transformed template/script/style artifacts before and after an incremental compile, and restores the source even after interruption.
 
-Runtime verification remains platform-specific: `pnpm test:hmr:h5` uses local Chrome or the Playwright Chromium fallback, `pnpm test:hmr:mp-weixin` requires logged-in WeChat DevTools, and the App scripts require the matching HBuilderX CLI plus a running device or simulator. Quality CI runs hosted H5 runtime HMR and WeChat artifact HMR; an optional `self-hosted, macOS, uni-app-runtime` runner can run the external runtime matrix when the repository variable `UNI_APP_RUNTIME_ENABLED=true`. Reports, screenshots, and logs live under ignored `packages/template/.hmr-artifacts/`; do not commit them or bundle them into generated projects.
+Runtime verification remains platform-specific: `pnpm test:hmr:h5` uses local Chrome or the Playwright Chromium fallback, `pnpm test:hmr:mp-weixin` requires logged-in WeChat DevTools, and the App scripts require the matching HBuilderX CLI plus a running device or simulator. Quality CI runs hosted H5 runtime HMR and artifact HMR for App, WeChat, Alipay, and Toutiao. External WeChat DevTools, HBuilderX, iOS Simulator, and Android device runtimes remain local-only checks. Reports, screenshots, and logs live under ignored `packages/template/.hmr-artifacts/`; do not commit them or bundle them into generated projects.
 For WeChat DevTools automation, use `weapp-ide-cli` exclusively. Do not add new uses of `@dcloudio/uni-automator`, and do not use its launcher for new runtime, screenshot, navigation, or HMR checks. Existing references should be migrated to the corresponding `weapp-ide-cli` command or API when that test path is changed.
 
 
