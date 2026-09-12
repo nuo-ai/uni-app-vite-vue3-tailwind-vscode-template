@@ -29,8 +29,8 @@
     "build:mp-weixin": "node scripts/run-template.mjs @default build:mp-weixin",
     "lint": "node scripts/run-template.mjs @default lint",
     "lint:fix": "node scripts/run-template.mjs @default lint:fix",
-    "update:deps": "pnpm -r --include-workspace-root up --latest --interactive \"!@dcloudio/*\" \"!@vue/runtime-core\" \"!@vue/shared\" \"!rollup\" \"!vite\" \"!vue\" \"!vue-i18n\"",
-    "update:uni-app": "node scripts/run-template.mjs @default update:uni-app",
+    "up:deps": "pnpm -r --include-workspace-root up --latest --interactive \"!@dcloudio/*\" \"!@vue/runtime-core\" \"!@vue/shared\" \"!rollup\" \"!vite\" \"!vue\" \"!vue-i18n\"",
+    "up:uni-app": "node scripts/run-template.mjs @default update:uni-app",
     "template": "node scripts/run-template.mjs",
     "templates:matrix": "node scripts/ci-matrix.mjs",
     "test:hmr": "node scripts/run-template-test.mjs @default test:hmr",
@@ -61,7 +61,7 @@
     "repo:doctor": "repo doctor"
   },
   "devDependencies": {
-    "@dcloudio/uni-automator": "3.0.0-5020420260813002",
+    "@dcloudio/uni-automator": "3.0.0-5020420260813003",
     "@playwright/test": "^1.63.0",
     "jsonc-parser": "^3.3.1",
     "playwright": "^1.63.0",
