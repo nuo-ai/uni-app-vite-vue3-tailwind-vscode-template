@@ -49,10 +49,10 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
-    "@types/node": "^26.4.1",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.5.1",
     "@types/prompts": "^2.4.9",
-    "tsup": "^8.5.0",
+    "tsup": "^8.5.1",
     "typescript": "^6.0.3"
   }
 }
