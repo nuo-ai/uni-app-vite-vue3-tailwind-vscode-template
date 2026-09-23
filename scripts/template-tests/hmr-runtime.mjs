@@ -8,6 +8,14 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import process from 'node:process'
 import { createFixtureController, getFixtureState } from './hmr-fixture.mjs'
+import {
+  checkAndroidDevice,
+  checkChrome,
+  checkHBuilderX,
+  checkIosSimulator,
+  checkWechat,
+  createDefaultExecutor,
+} from '../preflight-core.mjs'
 
 const cwd = process.cwd()
 const repoRequire = createRequire(import.meta.url)
@@ -558,6 +566,19 @@ async function preflight(selected) {
   repoRequire.resolve('pngjs')
   repoRequire.resolve('@dcloudio/uni-automator')
   await fs.access(chromePath())
+
+  const sharedExecutor = createDefaultExecutor({ cwd })
+  const sharedChecks = []
+  if (selected.includes('h5')) sharedChecks.push(await checkChrome({ executor: sharedExecutor, target: 'h5' }))
+  if (selected.includes('mp-weixin')) sharedChecks.push(...await checkWechat({ executor: sharedExecutor, source: cwd, target: 'mp-weixin' }))
+  if (selected.some(platform => platform.startsWith('app-'))) sharedChecks.push(await checkHBuilderX({ executor: sharedExecutor, source: cwd, target: 'app', cliPath: hbuilderxPaths().cli }))
+  if (selected.includes('app-android')) sharedChecks.push(await checkAndroidDevice({ executor: sharedExecutor, target: 'app-android' }))
+  if (selected.includes('app-ios')) sharedChecks.push(await checkIosSimulator({ executor: sharedExecutor, target: 'app-ios' }))
+  const sharedFailure = sharedChecks.find(check => check.status === 'FAIL' || check.status === 'BLOCKED')
+  if (sharedFailure) {
+    if (sharedFailure.status === 'BLOCKED') throw new ExternalBlockError(sharedFailure.message)
+    throw new Error(sharedFailure.message)
+  }
 
   if (selected.includes('mp-weixin')) {
     await fs.access('/Applications/wechatwebdevtools.app/Contents/MacOS/cli')

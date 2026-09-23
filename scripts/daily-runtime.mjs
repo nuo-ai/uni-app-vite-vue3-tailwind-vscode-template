@@ -8,6 +8,7 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { setTimeout as wait } from 'node:timers/promises'
 import { runCleanup } from '../packages/create-uni-app-tailwindcss/scripts/daily-contract.mjs'
+import { runPreflight } from './preflight-core.mjs'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const createPackageRoot = path.join(repoRoot, 'packages/create-uni-app-tailwindcss')
@@ -21,6 +22,7 @@ let interrupted = false
 let interruptedSignal
 const hbuilderxStates = new Map()
 const runtimeProjects = new Map()
+const preflightResults = new Map()
 
 const caffeinatedExitCode = await runUnderCaffeinate()
 if (caffeinatedExitCode !== undefined) {
@@ -47,10 +49,10 @@ async function main() {
         }
         continue
       }
-      await runLaneSafely(`${source}:h5`, () => runH5Lane(source, projectRoot))
-      if (!interrupted) await runLaneSafely(`${source}:mp-weixin`, () => runWeChatLane(source, projectRoot))
-      if (!interrupted) await runLaneSafely(`${source}:app-ios`, () => runIosLane(source, projectRoot))
-      if (!interrupted) await runLaneSafely(`${source}:app-android`, () => runAndroidLane(source, projectRoot))
+      await runPreflightLane(source, 'h5', () => runH5Lane(source, projectRoot))
+      if (!interrupted) await runPreflightLane(source, 'mp-weixin', () => runWeChatLane(source, projectRoot))
+      if (!interrupted) await runPreflightLane(source, 'app-ios', () => runIosLane(source, projectRoot))
+      if (!interrupted) await runPreflightLane(source, 'app-android', () => runAndroidLane(source, projectRoot))
     }
     if (interrupted) {
       recordLane('runner', 'BLOCKED', `Interrupted by ${interruptedSignal}`)
@@ -113,6 +115,25 @@ async function prepareRuntimeProjects() {
         await requireCommandSuccess('pnpm', ['install', '--frozen-lockfile', '--ignore-scripts'], projectRoot, logPath, true)
       }
       runtimeProjects.set(source, projectRoot)
+      const preflight = await runPreflight({
+        repo: repoRoot,
+        registry: {
+          version: 1,
+          defaultTemplate: 'default',
+          templates: [{
+            id: 'default',
+            source: projectRoot,
+            targets: ['h5', 'app', 'mp-weixin'],
+          }],
+        },
+        selection: 'h5,app-android,app-ios,mp-weixin',
+        runBuild: false,
+      })
+      preflightResults.set(source, preflight)
+      await fs.writeFile(path.join(reportRoot, `${source}-preflight.json`), `${JSON.stringify(preflight, null, 2)}\n`, 'utf8')
+      recordLane(`${source}:preflight`, preflight.status, `Generated project preflight: ${preflight.status}`, undefined, {
+        targets: preflight.targetResults.map(result => ({ target: result.target, status: result.status })),
+      })
       recordLane(
         `${source}:prepare`,
         installError ? 'FAIL' : 'PASS',
@@ -125,6 +146,28 @@ async function prepareRuntimeProjects() {
       recordLane(`${source}:prepare`, 'FAIL', error instanceof Error ? error.message : String(error), `Review ${path.relative(repoRoot, logPath)}`)
     }
   }
+}
+
+async function runPreflightLane(source, target, lane) {
+  const preflight = preflightResults.get(source)
+  const result = preflight?.targetResults.find(item => item.target === target)
+  if (result?.status === 'FAIL') {
+    recordLane(`${source}:${target}`, 'FAIL', 'Skipped because generated project preflight failed', 'Review the generated project preflight report')
+    return
+  }
+  if (result?.status === 'BLOCKED') {
+    // The daily runner owns App device preparation (booting iOS and opening
+    // HBuilderX), so let those lanes perform their existing preparation before
+    // deciding whether the runtime remains blocked.
+    if (target.startsWith('app-')) {
+      await runLaneSafely(`${source}:${target}`, lane)
+      return
+    }
+    const blocked = result.checks.find(check => check.status === 'BLOCKED')
+    recordLane(`${source}:${target}`, 'BLOCKED', blocked?.message ?? 'Skipped because the target runtime is blocked', blocked?.repairCommand)
+    return
+  }
+  await runLaneSafely(`${source}:${target}`, lane)
 }
 
 async function runH5Lane(source, projectRoot) {
