@@ -145,7 +145,7 @@ export function makeCheck({ id, target, phase = 'baseline', status = 'PASS', mes
 
 export function checkVersion(actual, requirement = '>=22') {
   const normalized = String(actual ?? '').match(/(\d+)\.(\d+)\.(\d+)/)
-  const required = String(requirement).match(/(\d+)(?:\.(\d+))?(?:\.(\d+))?/) 
+  const required = String(requirement).match(/(\d+)(?:\.(\d+))?(?:\.(\d+))?/)
   if (!normalized || !required) return false
   const value = normalized.slice(1).map(Number)
   const wanted = [required[1], required[2] ?? 0, required[3] ?? 0].map(Number)
